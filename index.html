@@ -3,33 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Food Supply Chain</title>
+    <title>Food Supply Chain Management</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
 </head>
 <body>
     <div class="ui container">
-        <h1 class="ui header">Food Supply Chain</h1>
+        <h1 class="ui header">Food Supply Chain Management</h1>
 
-        <h2 class="ui dividing header">Current Shipments</h2>
-        <ul class="ui list">
-            {% if shipments %}
-                {% for shipment in shipments %}
-                    <li class="item">{{ shipment }}</li>
-                {% endfor %}
-            {% else %}
-                <li>No shipments in the supply chain</li>
-            {% endif %}
-        </ul>
+        <!-- Message Display -->
+        {% if message %}
+            <div class="ui message">
+                <p>{{ message }}</p>
+            </div>
+        {% endif %}
 
-        <h2 class="ui dividing header">Receive Shipment</h2>
+        <!-- Section to receive new shipment -->
+        <h2 class="ui dividing header">Receive a New Shipment</h2>
         <form class="ui form" action="/add_shipment" method="POST">
             <div class="field">
                 <label>Shipment Details</label>
-                <input type="text" name="shipment" placeholder="Enter shipment details (e.g., Rice - 100kg)">
+                <input type="text" name="shipment" placeholder="Enter shipment details (e.g., 'Rice - 100kg')">
             </div>
             <button class="ui button primary" type="submit">Add Shipment</button>
         </form>
 
+        <!-- Section to show current supply chain -->
+        <h2 class="ui dividing header">Current Shipments</h2>
+        <ul class="ui list">
+            {% if shipments %}
+                {% for shipment in shipments %}
+                    <li>{{ shipment }}</li>
+                {% endfor %}
+            {% else %}
+                <li>No shipments in the supply chain.</li>
+            {% endif %}
+        </ul>
+
+        <!-- Section to show total shipments -->
+        <h2 class="ui dividing header">Total Shipments</h2>
+        <p>Total shipments in supply chain: <strong>{{ total }}</strong></p>
+
+        <!-- Section to distribute the most recent shipment -->
         <h2 class="ui dividing header">Distribute Shipment</h2>
         <form class="ui form" action="/distribute_shipment" method="GET">
             <button class="ui button red" type="submit">Distribute Most Recent Shipment</button>
